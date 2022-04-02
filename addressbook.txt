@@ -1,0 +1,237 @@
+------------------------------UC 1 - CREATE ADDRESS BOOK DATABASE-----------------------
+
+mysql> create database Address_Book;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| address_book       |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use address_book;
+Database changed
+
+mysql> select database();
++--------------+
+| database()   |
++--------------+
+| address_book |
++--------------+
+1 row in set (0.00 sec)
+
+------------------------------UC 2 - CREATE ADDRESS BOOK TABLE ------------------------
+
+mysql> create table AddressBook(id INT unsigned NOT NULL AUTO_INCREMENT, FirstName varchar(50),LastName varchar(50),Address varchar(150),City varchar(30),State varchar(50),Zip varchar(6),Phone varchar(12),Email varchar(50),PRIMARY KEY (id) );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> describe addressbook;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| FirstName | varchar(50)  | YES  |     | NULL    |                |
+| LastName  | varchar(50)  | YES  |     | NULL    |                |
+| Address   | varchar(150) | YES  |     | NULL    |                |
+| City      | varchar(30)  | YES  |     | NULL    |                |
+| State     | varchar(50)  | YES  |     | NULL    |                |
+| Zip       | varchar(6)   | YES  |     | NULL    |                |
+| Phone     | varchar(12)  | YES  |     | NULL    |                |
+| Email     | varchar(50)  | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+9 rows in set (0.01 sec)
+
+------------------------------UC 3 - INSERT CONTACTS IN ADDRESS BOOK TABLE ------------------------
+
+mysql> insert into addressbook values
+    -> ('1','Vamshi','Krishna','Vijaynagar','Bangalore','Karnataka','562109','8877536490','vamshi@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into addressbook values
+    -> ('2','Ajay','Khanna','Jayanagar','Bengaluru','Karnataka','586709','8786667888','ajay@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into addressbook values
+    -> ('3','Ashok','Kiran','Gandhinagar','Manglore','Karnataka','454456','7888990356','ashok@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> describe addressbook;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| FirstName | varchar(50)  | YES  |     | NULL    |                |
+| LastName  | varchar(50)  | YES  |     | NULL    |                |
+| Address   | varchar(150) | YES  |     | NULL    |                |
+| City      | varchar(30)  | YES  |     | NULL    |                |
+| State     | varchar(50)  | YES  |     | NULL    |                |
+| Zip       | varchar(6)   | YES  |     | NULL    |                |
+| Phone     | varchar(12)  | YES  |     | NULL    |                |
+| Email     | varchar(50)  | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+9 rows in set (0.01 sec)
+
+mysql> select * from addressbook;
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+| id | FirstName | LastName | Address        | City      | State       | Zip    | Phone      | Email            |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+|  1 | Vamshi    | Krishna  | Vijaynagar     | Bangalore | Karnataka   | 562109 |8877536490  | vamshi@gmail.com |
+|  2 | Ajay      | Khanna   | Jayangar       | Bangalore | Karnataka   | 586709 | 8786667888 | ajay@gmail.com   |
+|  3 | Ashok     | Kiran    | Gandhinagar    | Mangalore | Karnataka   | 454456 | 7888990356 | ashok@gmail.com  |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+3 rows in set (0.00 sec)
+
+------------------------------UC 4 - EDIT CONTACTS USING NAME ------------------------
+
+mysql> update addressbook set address='Kengeri',phone='1234567890' where firstname='Ajay';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from addressbook;
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+| id | FirstName | LastName | Address        | City      | State       | Zip    | Phone      | Email            |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+|  1 | Vamshi    | Krishna  | Vijaynagar     | Bangalore | Karnataka   | 562109 |8877536490  | vamshi@gmail.com |
+|  2 | Ajay      | Khanna   | Kengeri        | Bangalore | Karnataka   | 586709 | 1234567890 | ajay@gmail.com   |
+|  3 | Ashok     | Kiran    | Gandhinagar    | Mangalore | Karnataka   | 454456 | 7888990356 | ashok@gmail.com  |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+3 rows in set (0.00 sec)
+
+------------------------------UC 5 - DELETE CONTACT USING NAME ------------------------
+
+mysql> delete from addressbook where firstname='Ajay';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from addressbook;
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+| id | FirstName | LastName | Address        | City      | State       | Zip    | Phone      | Email            |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+|  1 | Vamshi    | Krishna  | Vijaynagar     | Bangalore | Karnataka   | 562109 |8877536490  | vamshi@gmail.com |
+|  3 | Ashok     | Kiran    | Gandhinagar    | Mangalore | Karnataka   | 454456 | 7888990356 | ashok@gmail.com  |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+2 rows in set (0.00 sec)
+
+------------------------------UC 6 - RETRIEVE CONTACT USING CITY/STATE ------------------------
+
+mysql> select * from addressbook where city='Mangalore';
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+| id | FirstName | LastName | Address        | City      | State       | Zip    | Phone      | Email            |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+|  3 | Ashok     | Kiran    | Gandhinagar    | Mangalore | Karnataka   | 454456 | 7888990356 | ashok@gmail.com  |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+1 row in set (0.00 sec)
+
+
+------------------------------UC 7 - SIZE OF ADD BOOK BY CITY & STATE ------------------------
+
+
+mysql> select count(state) from addressbook where state='Karnataka';
++--------------+
+| count(state) |
++--------------+
+|            2 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select count(state) from addressbook where state='Maharashtra';
++--------------+
+| count(state) |
++--------------+
+|            0 |
++--------------+
+1 row in set (0.00 sec)
+
+
+mysql> select count(city) from addressbook where city='Bangalore';
++-------------+
+| count(city) |
++-------------+
+|           1 |
++-------------+
+1 row in set (0.00 sec)
+
+------------------------------UC 8 - RETRIEVE CONTACT WITH CITY------------------------
+
+mysql> select firstname from addressbook where city='Bangalore' order by firstname;
++-----------+
+| firstname |
++-----------+
+| Vamshi    |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> insert into addressbook values
+    -> ('4','Anu','Kumar','Majestic','Bangalore','Karnataka','556555','8999765433','anu@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from addressbook;
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+| id | FirstName | LastName | Address        | City      | State       | Zip    | Phone      | Email            |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+|  1 | Vamshi    | Krishna  | Vijaynagar     | Bangalore | Karnataka   | 562109 |8877536490  | vamshi@gmail.com |
+|  3 | Ashok     | Kiran    | Gandhinagar    | Mangalore | Karnataka   | 454456 | 7888990356 | ashok@gmail.com  |
+|  4 | Anu       | Kumar    | Majestic       | Bangalore | Karnataka   | 556555 | 8999765433 | anu@gmail.com    |
++----+-----------+----------+----------------+-----------+-------------+--------+------------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> select firstname from addressbook where city='Mangalore' order by firstname;
++-----------+
+| firstname |
++-----------+
+| Ashok     |
++-----------+
+2 rows in set (0.00 sec)
+
+------------------------------UC 9 - IDENTIFY AB WITH NAME & TYPE------------------------
+
+mysql> update addressbook set bookname='MyBook1', booktype='Family';
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from addressbook;
++----+-----------+----------+-----------------+----------+-------------+--------+------------+----------------------+----------+----------+
+| id | FirstName | LastName | Address         | City     | State       | Zip    | Phone      | Email                | BookName | BookType |
++----+-----------+----------+-----------------+----------+-------------+--------+------------+----------------------+----------+----------+
+|  1 | Vamshi    | Krishna  | Vijaynagar      | Bangalore | Karnataka   | 562109 |8877536490  | vamshi@gmail.com    | MyBook1  | Family   |
+|  3 | Ashok     | Kiran    | Gandhinagar     | Mangalore | Karnataka   | 454456 | 7888990356 | ashok@gmail.com     | MyBook1  | Family   |
+|  4 | Anu       | Kumar    | Majestic        | Bangalore | Karnataka   | 556555 | 8999765433 | anu@gmail.com       | MyBook1  | Family   |
++----+-----------+----------+-----------------+----------+-------------+--------+------------+----------------------+----------+----------+
+3 rows in set (0.00 sec)
+
+------------------------------UC 10 & 11 - GET NUMBER OF CONTACT & ADDING PERSONS FRIDEND, FAMILY ------------------------
+
+
+mysql> insert into addressbook values('2','Sachin','Kumar','Bidadi','Mysore','Karnataka','56789','7888778907','sachinh@gmail.com','MyBook1','Profession');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into addressbook values('5','Nithin','Kumar','Ramnagar','Mysore','Karnataka','566647','77888907','nithin@gmail.com','MyBook2','Friends');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from addressbook;
++----+-----------+----------+-----------------+------------+-------------+--------+------------+----------------------+----------+------------+
+| id | FirstName | LastName | Address         | City       | State       | Zip    | Phone      | Email                | BookName | BookType   |
++----+-----------+----------+-----------------+------------+-------------+--------+------------+----------------------+----------+------------+
+|  1 | Vamshi    | Krishna  | Vijaynagar      | Bangalore  | Karnataka   | 562109 |8877536490  | vamshi@gmail.com     | MyBook1  | Family     |
+|  2 | Sachin    | Kumar    | Bidadi          | Mysore     | Karnataka   | 56789  | 7888778907 | sachin@gmail.com     | MyBook1  | Profession |
+|  3 | Ashok     | Kiran    | Gandhinagar     | Mangalore  | Karnataka   | 454456 | 7888990356 | ashok@gmail.com      | MyBook1  | Family     |
+|  4 | Anu       | Kumar    | Majestic        | Bangalore  | Karnataka   | 556555 | 8999765433 | anu@gmail.com        | MyBook1  | Family     |
+|  5 | Nithin    | Kumar    | Ramnagar        | Mysore     | Karnataka   | 566647 | 77888907   | nithin@gmail.com     | MyBook2  | Friends    |
++----+-----------+----------+-----------------+------------+-------------+--------+------------+----------------------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select booktype,count(*) from addressbook group by booktype;
++------------+----------+
+| booktype   | count(*) |
++------------+----------+
+| Family     |        3 |
+| Profession |        1 |
+| Friends    |        1 |
++------------+----------+
+3 rows in set (0.00 sec)
